@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">QingYu</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="hint_username">\@baixing.com</string>
+    <string name="hint_password">密码</string>
+    <string name="button_login">登录</string>
+    <string name="login_need">Welcome</string>
+    <string name="login_title">用户登录</string>
+    <string name="login_id_empty">用户名不为空</string>
+    <string name="login_email_empty">密码不为空</string>
+
+    <string name="borrow_btn">我要借伞</string>
+    <string name="borrow_hint">请输入锁编号</string>
+    <string name="borrow_title">Borrow Umbrella</string>
+
+    <string name="return_btn">我要还伞</string>
+    <string name="return_hint">请输入一个空锁编号</string>
+    <string name="return_title">Return Umbrella</string>
+
+    <string name="secret_label">开锁密码</string>
+</resources>

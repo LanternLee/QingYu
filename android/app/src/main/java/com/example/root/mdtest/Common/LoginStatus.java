@@ -35,6 +35,7 @@ public class LoginStatus {
 
     public void setUser(User user) {
         this.user = user;
+        saveStatus();
     }
 
     public void refreshUser(User user){
@@ -78,6 +79,9 @@ public class LoginStatus {
             editor.putInt(STATUSKEY,1);
             editor.putString(MAILKEY, user.mail);
             editor.putString(PASSKEY, user.password);
+            editor.putInt(NCOUNTKEY,user.ncount);
+            editor.putInt(SCOREKEY,user.score);
+            editor.putInt(BORROWKEY,user.has_borrow);
         }
 
         editor.commit();

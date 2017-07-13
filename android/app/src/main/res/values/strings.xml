@@ -30,4 +30,8 @@
     <string name="return_title">Return Umbrella</string>
 
     <string name="secret_label">开锁密码</string>
+
+    <string name="score_label">信用分:</string>
+    <string name="borrow_label">借伞:</string>
+    <string name="ncount_label">总借伞:</string>
 </resources>

@@ -73,7 +73,7 @@ public class PushReceiver extends BroadcastReceiver {
 
                 break;
             case RETURNUBL:
-                //push base on umbrella borrow
+                //push base on umbrella borrow_icon
                 LoginStatus.getInstance().init(context.getApplicationContext());
                 LoginStatus.getInstance().loadStatus();
                 if(LoginStatus.getInstance().isLogin()==false){

@@ -25,7 +25,7 @@ public class AlarmHelper {
         PendingIntent pi=PendingIntent.getBroadcast(context,0,intent,flags);
 
         am.set(AlarmManager.RTC_WAKEUP,nextRTC,pi);
-        Log.d("Alarm","set an alarm");
+        Log.d("Alarm","set an alarm "+flags);
     }
 
     private static long getNextRTC(int hour,int minute,int second){
@@ -56,6 +56,7 @@ public class AlarmHelper {
         intent.putExtras(bundle);
         AlarmHelper.setAlarm(context.getApplicationContext(),intent,11,0,0,AlarmHelper.WEATHER11);
 
+        bundle.putInt("action",WEATHER17);
         bundle.putInt("hour",17);
         bundle.putInt("flag",WEATHER17);
         intent.putExtras(bundle);
@@ -65,6 +66,6 @@ public class AlarmHelper {
         bundle.putInt("hour",8);
         bundle.putInt("flag",RETURN8);
         intent.putExtras(bundle);
-        AlarmHelper.setAlarm(context.getApplicationContext(),intent,17,0,0,RETURN8);
+        AlarmHelper.setAlarm(context.getApplicationContext(),intent,8,0,0,RETURN8);
     }
 }

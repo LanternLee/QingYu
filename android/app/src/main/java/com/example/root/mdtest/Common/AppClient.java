@@ -36,8 +36,8 @@ import retrofit2.http.Query;
 
 public class AppClient {
     public interface HttpService{
-        @POST("query/borrow")
-        Call<List<User>> getBorrowUsers(@Query("borrow") int borrowNum);
+        @POST("query/borrow_icon")
+        Call<List<User>> getBorrowUsers(@Query("borrow_icon") int borrowNum);
 
         @POST("query/user")
         Call<LoginResult> login(@Query("usermail") String mail,@Query("password") String pass);

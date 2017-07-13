@@ -40,11 +40,21 @@
     <style name="header_text_main">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">#FFF</item>
+        <item name="android:layout_marginBottom">5dp</item>
     </style>
 
     <style name="header_text">
         <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
         <item name="android:textColor">#FFF</item>
+    </style>
+
+    <style name="header_text_content">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textColor">@color/Amber400</item>
     </style>
 
     <style name="item_text">
@@ -58,10 +68,8 @@
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:background">@drawable/login_block</item>
-        <item name="android:layout_height">230dp</item>
+        <item name="android:layout_height">250dp</item>
     </style>
-
-
 
     <style name="lock_secret">
         <item name="android:textSize">24sp</item>
@@ -72,6 +80,16 @@
         <item name="android:textSize">34sp</item>
         <item name="android:textColor">@color/Amber700</item>
         <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="person_block">
+        <item name="android:background">@color/lightBlue</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="inputText">
+        <item name="android:textColor">#000</item>
     </style>
 
 </resources>

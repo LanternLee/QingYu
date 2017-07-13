@@ -45,6 +45,7 @@ import com.example.root.mdtest.Common.LoginStatus;
 import com.example.root.mdtest.Common.NotifyHelper;
 import com.example.root.mdtest.Model.LoginResult;
 import com.example.root.mdtest.Model.UblMess;
+import com.example.root.mdtest.Model.User;
 import com.example.root.mdtest.Model.Weather;
 
 import java.util.ArrayList;
@@ -61,101 +62,116 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
     // UI references.
     private Toolbar toolbar;
+    private TextView title;
     private EditText mEmailInput;
     private EditText mPasswordInput;
     private Button mLoginBtn;
     private TextInputLayout mIdInputLayout;
     private TextInputLayout mPassInputLayout;
     private View layout;
-    private String tail="@tst.com";
+    private String tail = "@tst.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
-        mEmailInput=(EditText)findViewById(R.id.loginEmail);
-        mPasswordInput=(EditText)findViewById(R.id.loginPassword);
-        mLoginBtn=(Button)findViewById(R.id.loginBtn);
-        mIdInputLayout=(TextInputLayout)findViewById(R.id.textInputEmail) ;
-        mPassInputLayout=(TextInputLayout)findViewById(R.id.textInputPass);
-        layout=(View)findViewById(R.id.layout);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mEmailInput = (EditText) findViewById(R.id.loginEmail);
+        mPasswordInput = (EditText) findViewById(R.id.loginPassword);
+        mLoginBtn = (Button) findViewById(R.id.loginBtn);
+        mIdInputLayout = (TextInputLayout) findViewById(R.id.textInputEmail);
+        mPassInputLayout = (TextInputLayout) findViewById(R.id.textInputPass);
+        layout = (View) findViewById(R.id.layout);
+        title = (TextView) findViewById(R.id.toolbar_title);
 
         init();
     }
 
-    private void init(){
+    private void init() {
+        //login callback
+        final Callback<LoginResult> loginCallback = new Callback<LoginResult>() {
+            @Override
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                LoginResult result = response.body();
+
+                if (result.status == 0) {
+                    Intent intent = new Intent(LoginActivity.this.getApplicationContext(), MainActivity.class);
+                    LoginStatus.getInstance().setUser(result.user);
+                    startActivity(intent);
+                } else {
+                    Snackbar.make(layout, "Login fail " + result.status + " " + result.error, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResult> call, Throwable t) {
+                Snackbar.make(layout, "Login Fail", Snackbar.LENGTH_SHORT).show();
+                t.printStackTrace();
+                mLoginBtn.setEnabled(true);
+            }
+        };
+
+        //load user mess from share preference
+        LoginStatus.getInstance().loadStatus();
+        if (LoginStatus.getInstance().isLogin()) {
+            User user = LoginStatus.getInstance().getUser();
+            Log.d("Login", "mail " + user.mail + " pass " + user.password);
+            mLoginBtn.setEnabled(false);
+            AppClient.httpService.login(user.mail, user.password).enqueue(loginCallback);
+        }
+
         //toolbar
-        toolbar.setTitle(R.string.login_title);
+        toolbar.setTitle("");
+        title.setText(R.string.login_title);
         setSupportActionBar(toolbar);
 
         //btn
         mLoginBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isFormFinish() == false) {
+                    mEmailInput.clearFocus();
+                    mPasswordInput.clearFocus();
+                    return;
+                }
                 closeKeyBoard();
+                mLoginBtn.setEnabled(false);
 
-                String mail=mEmailInput.getText().toString();
-                String pass=mPasswordInput.getText().toString();
+                String mail = mEmailInput.getText().toString();
+                String pass = mPasswordInput.getText().toString();
 
-                AppClient.httpService.login(mail,pass).enqueue(new Callback<LoginResult>() {
-                    @Override
-                    public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
-                        LoginResult result=response.body();
-
-                        if(result.status==0){
-                            Intent intent=new Intent(LoginActivity.this.getApplicationContext(),MainActivity.class);
-                            LoginStatus.getInstance().setUser(result.user);
-                            startActivity(intent);
-                        }
-                        else{
-                            Snackbar.make(layout,"Login fail "+result.status+" "+result.error,Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResult> call, Throwable t) {
-                        Snackbar.make(layout,"Login Fail",Snackbar.LENGTH_SHORT).show();
-                    }
-                });
+                Log.d("Login", "mail " + mail + " pass " + pass);
+                AppClient.httpService.login(mail, pass).enqueue(loginCallback);
             }
         });
-        mLoginBtn.setEnabled(isFormFinish());
 
         //input area
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask()   {
-            public void run() {
-                showKeyboard();
-            }
-        }, 1000 );
+        showKeyboard();
 
         mEmailInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     return;
                 }
-                String id=mEmailInput.getText().toString();
-                if(id.isEmpty()){
+                String id = mEmailInput.getText().toString();
+                if (id.isEmpty()) {
                     mIdInputLayout.setErrorEnabled(true);
                     mIdInputLayout.setError(getString(R.string.login_id_empty));
                     return;
-                }
-                else{
+                } else {
                     mIdInputLayout.setError("");
                     mIdInputLayout.setErrorEnabled(false);
                 }
 
-                if(id.endsWith(tail)){
+                if (id.endsWith(tail)) {
                     return;
-                }
-                else{
-                    mEmailInput.setText(id+tail);
+                } else {
+                    mEmailInput.setText(id + tail);
                 }
 
             }
@@ -164,53 +180,42 @@ public class LoginActivity extends AppCompatActivity{
         mPasswordInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     return;
                 }
 
-                String pass=mPasswordInput.getText().toString();
-                if(pass.isEmpty()){
+                String pass = mPasswordInput.getText().toString();
+                if (pass.isEmpty()) {
                     mPassInputLayout.setErrorEnabled(true);
                     mPassInputLayout.setError(getString(R.string.login_email_empty));
                     return;
-                }
-                else{
+                } else {
                     mPassInputLayout.setError("");
                     mPassInputLayout.setErrorEnabled(false);
                 }
             }
         });
 
-        TextWatcher watcher=new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+    }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+    private boolean isFormFinish() {
+        String email = mEmailInput.getText().toString();
+        String pass = mPasswordInput.getText().toString();
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                mLoginBtn.setEnabled(isFormFinish());
+        return !email.isEmpty() && !pass.isEmpty();
+    }
+
+    private void showKeyboard() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(mEmailInput, 0);
             }
-        };
-
-        mEmailInput.addTextChangedListener(watcher);
-        mPasswordInput.addTextChangedListener(watcher);
+        }, 1000);
     }
 
-    private boolean isFormFinish(){
-        String email=mEmailInput.getText().toString();
-        String pass=mPasswordInput.getText().toString();
-
-        return !email.isEmpty()&&!pass.isEmpty();
-    }
-
-    private void showKeyboard(){
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(mEmailInput, 0);
-    }
-
-    private void closeKeyBoard(){
+    private void closeKeyBoard() {
         View view = getWindow().peekDecorView();
         if (view != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

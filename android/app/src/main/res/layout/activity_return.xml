@@ -17,7 +17,6 @@
     <LinearLayout
         android:id="@+id/OpBlock"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
         style="@style/operation_block">
 
@@ -41,10 +40,10 @@
 
         <Button
             android:id="@+id/return_btn"
-            style="@style/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/login_btn"
+            style="@style/login_btn"
             android:text="@string/return_btn" />
 
     </LinearLayout>

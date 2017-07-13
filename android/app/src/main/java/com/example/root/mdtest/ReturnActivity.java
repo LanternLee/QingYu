@@ -1,5 +1,6 @@
 package com.example.root.mdtest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -11,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +20,9 @@ import android.widget.TextView;
 import com.example.root.mdtest.Common.AppClient;
 import com.example.root.mdtest.Common.LoginStatus;
 import com.example.root.mdtest.Model.UblResult;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,6 +88,7 @@ public class ReturnActivity extends AppCompatActivity {
 
         //input area
         showSecretInput();
+        showKeyboard();
 
         //btn listerner
         mReturnBtn.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +98,7 @@ public class ReturnActivity extends AppCompatActivity {
                     startActivity(new Intent(ReturnActivity.this,LoginActivity.class));
                 }
 
+                closeKeyBoard();
                 int id=Integer.parseInt(mIdInput.getText().toString());
                 AppClient.httpService.handleUbl(LoginStatus.getInstance().getUser().mail,1,id).enqueue(new Callback<UblResult>() {
                     @Override
@@ -138,5 +145,23 @@ public class ReturnActivity extends AppCompatActivity {
 
         Animation animation= AnimationUtils.loadAnimation(this,R.anim.secret_anim);
         secret_block.startAnimation(animation);
+    }
+
+    private void showKeyboard() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(mIdInput, 0);
+            }
+        }, 1000);
+    }
+
+    private void closeKeyBoard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

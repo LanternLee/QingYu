@@ -1,7 +1,12 @@
 package com.example.root.mdtest;
 
 import android.app.Application;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 
+import com.example.root.mdtest.Broadcast.PushReceiver;
+import com.example.root.mdtest.Common.AlarmHelper;
 import com.example.root.mdtest.Common.AppClient;
 
 /**
@@ -15,6 +20,9 @@ public class QYApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppClient.initAppClient();
+
+        AlarmHelper.setBaseAlarm(getApplicationContext());
+        Log.d("QYApp","set an alarm");
 
         instance = this;
     }

@@ -3,8 +3,10 @@ package com.example.root.mdtest.Common;
 import android.util.Log;
 
 import com.example.root.mdtest.Model.LoginResult;
+import com.example.root.mdtest.Model.UblMess;
 import com.example.root.mdtest.Model.UblResult;
 import com.example.root.mdtest.Model.User;
+import com.example.root.mdtest.Model.Weather;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -42,6 +44,13 @@ public class AppClient {
 
         @POST("/update")
         Call<UblResult> handleUbl(@Query("usermail") String mail,@Query("action") int action,@Query("lockid") int lockid);
+
+        @GET("https://api.seniverse.com/v3/weather/now.json")
+        Call<Weather> getNowWeather(@Query("key") String appKey,@Query("location") String location,
+                                    @Query("language") String language,@Query("unit") String unit);
+
+        @POST("/query/lockid")
+        Call<UblMess> getUblMess(@Query("available") String status);
     }
 
     public static HttpService httpService;

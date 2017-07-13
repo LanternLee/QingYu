@@ -27,6 +27,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +42,10 @@ import android.widget.TextView;
 
 import com.example.root.mdtest.Common.AppClient;
 import com.example.root.mdtest.Common.LoginStatus;
+import com.example.root.mdtest.Common.NotifyHelper;
 import com.example.root.mdtest.Model.LoginResult;
+import com.example.root.mdtest.Model.UblMess;
+import com.example.root.mdtest.Model.Weather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +108,7 @@ public class LoginActivity extends AppCompatActivity{
                         LoginResult result=response.body();
 
                         if(result.status==0){
-                            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                            Intent intent=new Intent(LoginActivity.this.getApplicationContext(),MainActivity.class);
                             LoginStatus.getInstance().setUser(result.user);
                             startActivity(intent);
                         }

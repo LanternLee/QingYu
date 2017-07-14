@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.root.mdtest.Common.AppClient;
 import com.example.root.mdtest.Common.LoginStatus;
 import com.example.root.mdtest.Model.UblResult;
+import com.example.root.mdtest.Model.User;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -70,6 +71,7 @@ public class BorrowActivity extends AppCompatActivity {
     private void init(){
         //init toolbar
         setSupportActionBar(toolbar);
+        toolbar.setTitle("");
         title.setText(getString(R.string.borrow_title));
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -110,6 +112,9 @@ public class BorrowActivity extends AppCompatActivity {
                             //success
                             String secret=result.retVal;
                             showSecretResult(secret);
+                            User user=LoginStatus.getInstance().getUser();
+                            user.has_borrow=1;
+                            LoginStatus.getInstance().setUser(user);
                         }
                         else{
                             String error=errorMessage[result.status];

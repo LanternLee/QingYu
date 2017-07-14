@@ -20,11 +20,6 @@ import com.example.root.mdtest.R;
 public class NotifyHelper {
     private static final int WEATHERID = 63;
     private static final int RETURNBTN = 376;
-    private static int[] PicId = {
-            R.mipmap.w10, R.mipmap.w11, R.mipmap.w12, R.mipmap.w13,
-            R.mipmap.w14, R.mipmap.w15, R.mipmap.w16, R.mipmap.w17,
-            R.mipmap.w18, R.mipmap.w19, R.mipmap.w20
-    };
 
     static public void setWeatherNotify(Context context, Weather weather,int numOfUbl) {
         String weatherText = weather.results.get(0).now.text;
@@ -43,7 +38,7 @@ public class NotifyHelper {
                 .setContentText("剩余 "+numOfUbl+" 把伞")
                 .setTicker("快来借伞啦")
                 .setSmallIcon(R.mipmap.logo_new)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), PicId[weatherCode-10]))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), Weather.WEATHERICON[weatherCode]))
                 .setDefaults(Notification.FLAG_ONLY_ALERT_ONCE)
                 .setContentIntent(pi);
 

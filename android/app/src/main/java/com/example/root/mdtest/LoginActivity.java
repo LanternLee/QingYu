@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout mPassInputLayout;
     private View layout;
     private String tail = "@tst.com";
+    private Button test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,22 @@ public class LoginActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.toolbar_title);
 
         init();
+
+        test=(Button)findViewById(R.id.test);
+        test.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Weather weather=new Weather();
+                weather.results=new ArrayList<Weather.Item>();
+                Weather.Item item=new Weather.Item();
+                Weather.now now=new Weather.now();
+                now.code="15";
+                now.text="天气信息";
+                item.now=now;
+                weather.results.add(item);
+                NotifyHelper.setWeatherNotify(LoginActivity.this,weather,3);
+            }
+        });
     }
 
     private void init() {

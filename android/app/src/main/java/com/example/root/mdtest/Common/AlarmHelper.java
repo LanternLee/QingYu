@@ -58,12 +58,14 @@ public class AlarmHelper {
 
         bundle.putInt("action",WEATHER17);
         bundle.putInt("hour",17);
+        bundle.putInt("minute",0);
         bundle.putInt("flag",WEATHER17);
         intent.putExtras(bundle);
         AlarmHelper.setAlarm(context.getApplicationContext(),intent,17,0,0,WEATHER17);
 
         bundle.putInt("action",RETURN8);
         bundle.putInt("hour",8);
+        bundle.putInt("minute",0);
         bundle.putInt("flag",RETURN8);
         intent.putExtras(bundle);
         AlarmHelper.setAlarm(context.getApplicationContext(),intent,8,0,0,RETURN8);

@@ -30,11 +30,13 @@ public class PushReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         int action = bundle.getInt("action", 0);
         switch (action) {
-            case WEATHER:
+            case AlarmHelper.WEATHER11:
+            case AlarmHelper.WEATHER17:
                 //push base on weather
                 AppClient.httpService.getNowWeather(Weather.APPID, Weather.LOCATION, Weather.LANGUAGE, Weather.UNIT).enqueue(new Callback<Weather>() {
                     @Override
                     public void onResponse(Call<Weather> call, Response<Weather> response) {
+                        Log.d("weather",response.code()+"");
                         if (response.code() != 200) {
                             return;
                         }
@@ -72,7 +74,7 @@ public class PushReceiver extends BroadcastReceiver {
                 });
 
                 break;
-            case RETURNUBL:
+            case AlarmHelper.RETURN8:
                 //push base on umbrella borrow_icon
                 LoginStatus.getInstance().init(context.getApplicationContext());
                 LoginStatus.getInstance().loadStatus();
@@ -98,6 +100,9 @@ public class PushReceiver extends BroadcastReceiver {
 
                         if(result.user.has_borrow==1){
                             NotifyHelper.setReturnNotify(context);
+                        }
+                        else{
+                            Log.d("push return","no borrow");
                         }
                     }
 

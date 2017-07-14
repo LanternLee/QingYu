@@ -17,7 +17,7 @@
     <string name="hint_password">密码</string>
     <string name="button_login">登录</string>
     <string name="login_need">Welcome</string>
-    <string name="login_title">用户登录</string>
+    <string name="login_title">Login</string>
     <string name="login_id_empty">用户名不为空</string>
     <string name="login_email_empty">密码不为空</string>
 
@@ -32,6 +32,8 @@
     <string name="secret_label">开锁密码</string>
 
     <string name="score_label">信用分:</string>
-    <string name="borrow_label">借伞:</string>
+    <string name="borrow_label">状态:</string>
     <string name="ncount_label">总借伞:</string>
+    <string name="has_borrow">借伞中</string>
+    <string name="no_borrow">无借伞</string>
 </resources>

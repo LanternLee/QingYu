@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.root.mdtest.Common.AppClient;
 import com.example.root.mdtest.Common.LoginStatus;
 import com.example.root.mdtest.Model.UblResult;
+import com.example.root.mdtest.Model.User;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -69,6 +70,7 @@ public class ReturnActivity extends AppCompatActivity {
     private void init(){
         //toolbar
         setSupportActionBar(toolbar);
+        toolbar.setTitle("");
         title.setText(getString(R.string.return_title));
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -109,6 +111,12 @@ public class ReturnActivity extends AppCompatActivity {
                             //success
                             String secret=result.retVal;
                             showSecretResult(secret);
+
+                            User user=LoginStatus.getInstance().getUser();
+                            user.has_borrow=0;
+                            user.score+=5;
+                            user.ncount++;
+                            LoginStatus.getInstance().setUser(user);
                         }
                         else{
                             String error=errorMessage[result.status];

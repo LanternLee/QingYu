@@ -59,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //init person info
+        User user=LoginStatus.getInstance().getUser();
+        score.setText(user.score+"");
+        ncount.setText(user.ncount+"");
+        if(user.has_borrow==0){
+            has_borrow.setText(R.string.no_borrow);
+        }
+        else{
+            has_borrow.setText(R.string.has_borrow);
+        }
+    }
+
     private void initData(){
         menuItems=new ArrayList<MenuItem>(4);
         MenuItem item1=new MenuItem();
@@ -105,12 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-
-        //init person info
-        User user=LoginStatus.getInstance().getUser();
-        score.setText(user.score+"");
-        has_borrow.setText(user.has_borrow+"");
-        ncount.setText(user.ncount+"");
 
         //init recycler list
         initData();
